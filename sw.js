@@ -1,4 +1,4 @@
-const CACHE = "beten-ragua-v10";
+const CACHE = "beten-ragua-v11";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest",
   "./icon-192.png", "./icon-512.png", "./icon-180.png"];
 
