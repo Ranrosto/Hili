@@ -53,6 +53,39 @@ header{padding:calc(16px + env(safe-area-inset-top,0px)) 20px 6px;}
 @keyframes drift{0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(14px,10px) scale(1.12);}}
 .day-bubble h1{margin:0; font-size:1.65rem; position:relative;}
 .day-bubble p{margin:5px 0 0; color:#8A6E93; font-size:.95rem; position:relative; font-weight:600;}
+.hb-row{display:flex; align-items:center; gap:10px; position:relative;}
+.hb-text{flex:1; min-width:0;}
+#buddy{flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:0;
+  filter:drop-shadow(0 6px 12px rgba(107,74,110,.22));}
+#buddyG{transform-origin:50% 55%; animation:buddyIdle 4s ease-in-out infinite;}
+@keyframes buddyIdle{0%,100%{transform:scale(1,1);} 50%{transform:scale(1.04,.96) translateY(1px);}}
+#buddy:active #buddyG{animation:buddyJump .4s ease;}
+@keyframes buddyJump{50%{transform:translateY(-6px) scale(1.06);}}
+.bd-hint{font-size:.7rem; font-weight:700; color:#8A6E93; background:rgba(255,255,255,.7);
+  border-radius:999px; padding:2px 9px; margin-top:-4px;}
+#garden{display:flex; gap:5px; margin-top:9px; align-items:center; font-size:.95rem;}
+#garden .g-day{width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,.5);
+  display:flex; align-items:center; justify-content:center; font-size:.8rem;}
+#garden .g-streak{font-size:.75rem; font-weight:700; color:#8A6E93; margin-right:4px;}
+#themeBtn{position:absolute; top:12px; left:12px; z-index:2; width:38px; height:38px;
+  border-radius:50%; background:rgba(255,255,255,.6); font-size:1.1rem;
+  display:flex; align-items:center; justify-content:center;}
+#themeBtn:active{transform:rotate(30deg) scale(.92);}
+
+/* ---------- quick check-in bar ---------- */
+#quickBar{display:flex; align-items:center; gap:8px; background:var(--card);
+  border-radius:20px; box-shadow:var(--shadow); padding:10px 14px; margin-bottom:4px;}
+#quickBar .qb-t{font-size:.85rem; font-weight:700; color:var(--soft); flex:1;}
+#quickBar button{display:flex; flex-direction:column; align-items:center; gap:1px;
+  font-size:1.45rem; padding:4px 10px; border-radius:14px; transition:transform .15s;}
+#quickBar button i{font-style:normal; font-size:.66rem; font-weight:700; color:var(--soft);}
+#quickBar button:active{transform:scale(1.2);}
+
+/* ---------- name modal ---------- */
+#nameModal{position:fixed; inset:0; z-index:80; background:rgba(67,48,74,.45);
+  backdrop-filter:blur(4px); display:flex; align-items:center; justify-content:center; padding:24px;}
+.nm-card{background:var(--card); border-radius:28px; padding:26px 22px; text-align:center;
+  width:100%; max-width:340px; box-shadow:0 20px 50px rgba(67,48,74,.3); animation:rise .4s ease;}
 
 /* ---------- tabs / pages ---------- */
 .page{display:none; padding:16px 18px 10px; animation:fade .3s ease;}
@@ -128,12 +161,60 @@ nav button.on .ic{transform:translateY(-2px) scale(1.15);}
 #overlay{position:fixed; inset:0; background:rgba(67,48,74,.4); z-index:50;
   opacity:0; pointer-events:none; transition:opacity .25s; backdrop-filter:blur(2px);}
 #overlay.show{opacity:1; pointer-events:auto;}
-#sheet{position:fixed; right:0; left:0; bottom:0; z-index:51; background:var(--card);
+#sheet, #mealSheet{position:fixed; right:0; left:0; bottom:0; z-index:51; background:var(--card);
   border-radius:30px 30px 0 0; padding:14px 20px calc(22px + var(--safe-b));
   transform:translateY(105%); transition:transform .38s cubic-bezier(.22,1.2,.36,1);
   max-height:88vh; overflow-y:auto; box-shadow:0 -12px 40px rgba(67,48,74,.18);}
-#sheet.show{transform:none;}
+#sheet.show, #mealSheet.show{transform:none;}
+.ms-close{position:absolute; top:14px; left:16px; width:36px; height:36px; border-radius:50%;
+  background:#F7F0F6; color:#947E9C; font-size:1.05rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center; z-index:2;}
+.add-meal{width:100%; margin:-6px 0 15px; padding:13px; border-radius:20px;
+  background:#fff; color:var(--soft); font-weight:700; font-size:.95rem;
+  border:2px dashed #E3D2E8; box-shadow:none;}
+.add-meal:active{transform:scale(.98);}
+.m-del{margin-right:auto; color:#DCC9DA; font-size:1rem; padding:4px 8px;}
+.m-nutbtn{margin-top:12px; margin-left:8px; background:#F8F2F7; color:var(--soft);
+  font-weight:700; border-radius:15px; padding:10px 14px; font-size:.85rem;}
+.nut-panel{background:#FBF7FA; border-radius:16px; padding:12px; margin-top:10px;
+  animation:rise .25s ease;}
+.nut-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:6px; text-align:center;}
+.nut-grid div{background:#fff; border-radius:12px; padding:8px 2px; box-shadow:0 2px 8px rgba(67,48,74,.06);}
+.nut-grid b{display:block; font-family:'Varela Round'; font-size:.98rem; color:var(--coral-deep);}
+.nut-grid span{font-size:.68rem; color:var(--soft); font-weight:700;}
+.nut-note{margin:8px 2px 6px; font-size:.75rem; color:var(--soft); text-align:center;}
+.nut-close{width:100%; background:#fff; border-radius:12px; padding:8px; font-weight:700;
+  color:var(--soft); font-size:.85rem; box-shadow:0 2px 8px rgba(67,48,74,.06);}
+.today-nut{background:linear-gradient(120deg,var(--coral-soft),#FBEFF6); border-radius:var(--radius);
+  padding:15px 16px; margin-bottom:14px;}
+.today-nut h3{margin:0 0 10px; font-size:1.02rem;}
+.calc-card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:16px; margin-bottom:14px;}
+.calc-res{background:linear-gradient(120deg,var(--sage-soft),#EFF9F0); border-radius:20px;
+  padding:16px; text-align:center; margin-top:14px;}
+.calc-res .big-n{font-family:'Varela Round'; font-size:2rem; color:#3E8A6E;}
+.calc-two{display:flex; gap:10px;}
+.calc-two > *{flex:1;}
+nav button{font-size:.66rem;}
+
+/* ---------- patterns ---------- */
+.pat-card{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:16px; margin-bottom:14px; animation:rise .35s ease both;}
+.pat-card h3{margin:0 0 4px; font-size:1.05rem; display:flex; align-items:center; gap:8px;}
+.pat-sub{color:var(--soft); font-size:.86rem; margin:0 0 10px; line-height:1.4;}
+.pat-row{display:flex; align-items:center; gap:10px; margin-bottom:9px;}
+.pat-row .pr-l{font-size:.9rem; font-weight:600; width:96px; flex-shrink:0;}
+.pat-row .pr-n{font-size:.8rem; color:var(--soft); font-weight:700; width:52px; text-align:left; flex-shrink:0;}
+.bar{flex:1; height:12px; border-radius:8px; background:#F5EDF4; overflow:hidden;}
+.bar i{display:block; height:100%; border-radius:8px;
+  background:linear-gradient(90deg,var(--coral),var(--pink)); transition:width .6s ease;}
+.pat-note{background:var(--lilac-soft); border-radius:18px; padding:12px 15px;
+  font-size:.87rem; color:#6F5590; line-height:1.5; margin-bottom:14px;}
 .grip{width:44px; height:5px; border-radius:3px; background:#EDDFEB; margin:0 auto 14px;}
+#sheetClose{position:absolute; top:14px; left:16px; width:36px; height:36px; border-radius:50%;
+  background:#F7F0F6; color:#947E9C; font-size:1.05rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center; z-index:2;}
+#sheetClose:active{transform:scale(.92); background:#EFE3ED;}
 .seg{display:flex; background:#F7F0F6; border-radius:18px; padding:5px; gap:5px; margin-bottom:16px;}
 .seg button{flex:1; padding:10px 2px; border-radius:14px; font-size:.85rem; color:var(--soft);
   font-weight:700; transition:all .2s;}
@@ -172,6 +253,15 @@ input[type=datetime-local]{direction:ltr; text-align:right;}
 .rec-hint{color:var(--soft); font-size:.9rem; font-weight:600;}
 
 /* ---------- meals ---------- */
+#searchWrap{display:flex; align-items:center; gap:8px; background:var(--card);
+  border-radius:18px; box-shadow:var(--shadow); padding:10px 14px; margin-bottom:12px;}
+#searchWrap span{font-size:1rem;}
+#mealSearch{flex:1; border:none; outline:none; background:none; font-size:16px;}
+#searchClear{color:#DCC9DA; font-size:1rem; font-weight:700; padding:2px 6px;}
+.m-star{font-size:1.15rem; padding:4px 6px; filter:grayscale(1) opacity(.45); transition:all .2s;}
+.m-star.on{filter:none; transform:scale(1.15);}
+.m-cattag{font-size:.7rem; font-weight:700; color:var(--soft); background:#F8F2F7;
+  border-radius:999px; padding:2px 9px; margin-right:6px;}
 .cat-row{display:flex; gap:9px; overflow-x:auto; padding:4px 2px 14px; -webkit-overflow-scrolling:touch;}
 .cat-row::-webkit-scrollbar{display:none;}
 .cat-row button{white-space:nowrap; background:#fff; box-shadow:var(--shadow);
@@ -252,18 +342,60 @@ input[type=datetime-local]{direction:ltr; text-align:right;}
 </head>
 <body>
 
-<header><div class="day-bubble"><span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span><h1 id="hello">היי 💛</h1><p id="hSub"></p></div></header>
+<header><div class="day-bubble">
+  <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+  <button id="themeBtn" aria-label="החלפת צבעים">🎨</button>
+  <div class="hb-row">
+    <div class="hb-text">
+      <h1 id="hello">היי 💛</h1><p id="hSub"></p>
+      <div id="garden" title="ימים עם רישום השבוע"></div>
+    </div>
+    <button id="buddy" aria-label="איך הבטן עכשיו?">
+      <svg viewBox="0 0 100 100" width="86" height="86">
+        <g id="buddyG">
+          <ellipse cx="50" cy="52" rx="38" ry="36" fill="#FFFDFB"/>
+          <ellipse cx="38" cy="46" rx="3.4" ry="4.6" fill="#6B4A6E" class="bd-eye"/>
+          <ellipse cx="62" cy="46" rx="3.4" ry="4.6" fill="#6B4A6E" class="bd-eye"/>
+          <path id="buddyMouth" d="M40 60 Q50 70 60 60" stroke="#6B4A6E" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="30" cy="56" rx="4.5" ry="3.2" fill="#FBBFB4" opacity=".8"/>
+          <ellipse cx="70" cy="56" rx="4.5" ry="3.2" fill="#FBBFB4" opacity=".8"/>
+        </g>
+      </svg>
+      <span class="bd-hint">איך הבטן?</span>
+    </button>
+  </div>
+</div></header>
+
+<div id="nameModal" hidden>
+  <div class="nm-card">
+    <div style="font-size:2.4rem;">🌸</div>
+    <h2 class="display" style="margin:6px 0 4px;">היי! אני בטן רגועה</h2>
+    <p style="color:var(--soft);margin:0 0 14px;line-height:1.5;">היומן האישי שלך. הכול נשמר רק אצלך בטלפון.<br>איך קוראים לך?</p>
+    <input class="f-in" id="nameIn" placeholder="השם שלך..." maxlength="20" style="text-align:center;">
+    <div class="pick" id="genderPick" style="justify-content:center;margin-top:12px;"></div>
+    <button class="save-btn" id="nameSave" style="margin-top:14px;">יאללה, מתחילים 💛</button>
+    <button id="nameSkip" style="color:var(--soft);margin-top:10px;font-weight:600;">אולי אחר כך</button>
+  </div>
+</div>
 
 <!-- ============ יומן ============ -->
 <section class="page active" id="p-diary">
+  <div id="quickBar">
+    <span class="qb-t">צ'ק-אין מהיר:</span>
+    <button data-m="good">😌<i>רגוע</i></button>
+    <button data-m="meh">😐<i>ככה ככה</i></button>
+    <button data-m="bad">😖<i>כואב</i></button>
+  </div>
   <div id="timeline"></div>
 </section>
 
 <!-- ============ ארוחות ============ -->
 <section class="page" id="p-meals">
   <div class="bank-note">רעיונות לארוחות שבדרך כלל נעימות יותר לבטן. זה לא "מותר ואסור", זו התחלה נוחה, ואפשר להחליף כל דבר 💛</div>
+  <div id="searchWrap"><span>🔎</span><input id="mealSearch" placeholder="חיפוש מנה או מרכיב..." autocomplete="off"><button id="searchClear" hidden>✕</button></div>
   <div class="cat-row" id="catRow"></div>
   <button class="shuffle" id="shuffleBtn">🎲 הגרילי לי משהו מהקטגוריה</button>
+  <button class="add-meal" id="addMealBtn">➕ הוספת מנה שלי</button>
   <div id="mealList"></div>
 </section>
 
@@ -281,13 +413,42 @@ input[type=datetime-local]{direction:ltr; text-align:right;}
   <p style="color:var(--soft);font-size:.82rem;text-align:center;line-height:1.5;">האפליקציה היא כלי עזר בלבד ואינה תחליף לרופא או לדיאטנית.</p>
 </section>
 
+<!-- ============ דפוסים ============ -->
+<section class="page" id="p-pat">
+  <h2 class="display" style="margin:4px 2px 12px;">הבלש של הבטן 🔍</h2>
+  <div id="patList"></div>
+</section>
+
+<!-- ============ מחשבון ============ -->
+<section class="page" id="p-calc">
+  <h2 class="display" style="margin:4px 2px 6px;">מחשבון קלוריות 🧮</h2>
+  <p style="color:var(--soft);font-size:.86rem;margin:0 0 12px;line-height:1.5;">מיועד לגיל 18 ומעלה. אצל מתבגרים/ות בצמיחה החישוב שונה ונעשה עם דיאטנית.</p>
+  <div class="calc-card">
+    <div class="f-label" style="margin-top:2px;">מין</div>
+    <div class="pick" id="calcSex"></div>
+    <div class="calc-two" style="margin-top:12px;">
+      <div><div class="f-label" style="margin-top:0;">גיל</div><input class="f-in" id="calcAge" type="number" min="18" max="120" inputmode="numeric" placeholder="35"></div>
+      <div><div class="f-label" style="margin-top:0;">משקל (ק"ג)</div><input class="f-in" id="calcW" type="number" min="30" max="300" inputmode="decimal" placeholder="70"></div>
+    </div>
+    <div class="f-label">גובה (ס"מ)</div>
+    <input class="f-in" id="calcH" type="number" min="120" max="230" inputmode="numeric" placeholder="170">
+    <div class="f-label">רמת פעילות</div>
+    <div class="pick" id="calcAct"></div>
+    <button class="save-btn" id="calcGo">חישוב 🔥</button>
+    <div id="calcOut"></div>
+  </div>
+  <p style="color:var(--soft);font-size:.78rem;text-align:center;line-height:1.5;">החישוב לפי נוסחת Mifflin-St Jeor, המדויקת ביותר לאומדן חילוף חומרים. זו הערכה כללית ואינה ייעוץ רפואי או תזונתי אישי.</p>
+</section>
+
 <!-- ============ סיכום ============ -->
 <section class="page" id="p-sum">
   <h2 class="display" style="margin:4px 2px 12px;">14 הימים האחרונים</h2>
+  <div class="today-nut" id="todayNut"></div>
   <div class="stat-grid" id="statGrid"></div>
   <button class="sum-btn main" id="shareBtn">📤 שיתוף סיכום לדיאטנית / להורים</button>
   <button class="sum-btn" id="backupBtn">💾 גיבוי היומן (קובץ)</button>
   <button class="sum-btn" id="restoreBtn">📥 שחזור מגיבוי</button>
+  <button class="sum-btn" id="editNameBtn">✏️ שינוי השם באפליקציה</button>
   <input type="file" id="restoreFile" accept="application/json" hidden>
   <p style="color:var(--soft);font-size:.82rem;text-align:center;">הקלטות קול נשמרות רק במכשיר ולא נכללות בסיכום הטקסט.</p>
 </section>
@@ -295,15 +456,18 @@ input[type=datetime-local]{direction:ltr; text-align:right;}
 <button id="fab" aria-label="הוספה">＋</button>
 
 <nav>
-  <button data-p="p-diary" class="on"><span class="ic">📖</span>היומן שלי</button>
+  <button data-p="p-diary" class="on"><span class="ic">📖</span>יומן</button>
   <button data-p="p-meals"><span class="ic">🍽️</span>ארוחות</button>
+  <button data-p="p-pat"><span class="ic">🔍</span>דפוסים</button>
   <button data-p="p-tips"><span class="ic">🌸</span>טיפים</button>
+  <button data-p="p-calc"><span class="ic">🧮</span>מחשבון</button>
   <button data-p="p-sum"><span class="ic">✨</span>סיכום</button>
 </nav>
 
 <!-- ============ add sheet ============ -->
 <div id="overlay"></div>
 <div id="sheet">
+  <button id="sheetClose" aria-label="סגירה">✕</button>
   <div class="grip"></div>
   <div class="seg" id="kindSeg">
     <button data-k="meal" class="on">🍽️ ארוחה</button>
@@ -350,6 +514,32 @@ input[type=datetime-local]{direction:ltr; text-align:right;}
   <button class="save-btn" id="saveBtn">שמירה ביומן 💛</button>
 </div>
 
+<div id="mealSheet">
+  <button class="ms-close" aria-label="סגירה">✕</button>
+  <div class="grip"></div>
+  <h3 class="display" style="margin:2px 0 4px;text-align:center;">מנה חדשה שלי 🍽️</h3>
+  <div class="f-label">איך קוראים למנה?</div>
+  <input class="f-in" id="cmName" placeholder="למשל: הפסטה של אמא" maxlength="40">
+  <div class="f-label">אמוג'י (לא חובה)</div>
+  <input class="f-in" id="cmEmoji" placeholder="🍲" maxlength="4" style="width:90px;text-align:center;">
+  <div class="f-label">לאיזו קטגוריה?</div>
+  <div class="pick" id="cmCatPick"></div>
+  <div class="f-label">מה יש בפנים? (שורה לכל מרכיב)</div>
+  <textarea class="f-in" id="cmParts" rows="3" placeholder="אורז&#10;קוביות עוף&#10;גזר"></textarea>
+  <div class="f-label">אפשר להחליף ב... (לא חובה, שורה לכל רעיון)</div>
+  <textarea class="f-in" id="cmSwaps" rows="2" placeholder="פירה במקום אורז"></textarea>
+  <div class="f-label">ערכים תזונתיים למנה (לא חובה)</div>
+  <div class="calc-two">
+    <input class="f-in" id="cmK" type="number" min="0" inputmode="numeric" placeholder="קלוריות">
+    <input class="f-in" id="cmPr" type="number" min="0" inputmode="numeric" placeholder="חלבון (ג')">
+  </div>
+  <div class="calc-two" style="margin-top:8px;">
+    <input class="f-in" id="cmCa" type="number" min="0" inputmode="numeric" placeholder="פחמימות (ג')">
+    <input class="f-in" id="cmFa" type="number" min="0" inputmode="numeric" placeholder="שומן (ג')">
+  </div>
+  <button class="save-btn" id="cmSave">הוספה לארוחות 💛</button>
+</div>
+
 <div id="toast"></div>
 
 <script>
@@ -390,42 +580,54 @@ const DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שיש
 
 const MEALS={
  "בוקר":[
-  {e:"🥣",n:"דייסת שיבולת שועל",p:["שיבולת שועל על מים או חלב ללא לקטוז","בננה פרוסה","קינמון"],s:["תותים","אוכמניות","כפית ממרח בוטנים","מייפל מעט"]},
-  {e:"🍳",n:"חביתה וטוסט",p:["חביתה מ-2 ביצים","לחם כוסמין 100% קלוי או לחם ללא גלוטן","מלפפון ועגבנייה"],s:["ביצה קשה","ביצת עין","פרוסת גבינה צהובה"]},
-  {e:"🍓",n:"יוגורט ופירות",p:["יוגורט ללא לקטוז","תותים או קיווי","כף שיבולת שועל קלויה"],s:["בננה","כף זרעי צ'יה מושרים","גרנולה ביתית משיבולת שועל"]},
-  {e:"🥞",n:"פנקייק בננה",p:["בננה מעוכה + ביצה + שיבולת שועל טחונה","מעט מייפל"],s:["קינמון","תותים מעל","יוגורט ללא לקטוז בצד"]},
-  {e:"🥪",n:"כריך בוקר",p:["לחם מתאים (כוסמין 100% / ללא גלוטן)","טחינה גולמית או גבינה צהובה","ירקות"],s:["גבינה לבנה ללא לקטוז","ממרח בוטנים","ביצה קשה"]}],
+  {e:"🥣",n:"דייסת שיבולת שועל",nut:{k:320,pr:10,fa:6,ca:58},p:["שיבולת שועל על מים או חלב ללא לקטוז","בננה פרוסה","קינמון"],s:["תותים","אוכמניות","כפית ממרח בוטנים","מייפל מעט"]},
+  {e:"🍳",n:"חביתה וטוסט",nut:{k:350,pr:18,fa:16,ca:32},p:["חביתה מ-2 ביצים","לחם כוסמין 100% קלוי או לחם ללא גלוטן","מלפפון ועגבנייה"],s:["ביצה קשה","ביצת עין","פרוסת גבינה צהובה"]},
+  {e:"🍓",n:"יוגורט ופירות",nut:{k:220,pr:10,fa:5,ca:33},p:["יוגורט ללא לקטוז","תותים או קיווי","כף שיבולת שועל קלויה"],s:["בננה","כף זרעי צ'יה מושרים","גרנולה ביתית משיבולת שועל"]},
+  {e:"🥞",n:"פנקייק בננה",nut:{k:300,pr:12,fa:9,ca:42},p:["בננה מעוכה + ביצה + שיבולת שועל טחונה","מעט מייפל"],s:["קינמון","תותים מעל","יוגורט ללא לקטוז בצד"]},
+  {e:"🥤",n:"שייק בוקר ורוד",nut:{k:250,pr:9,fa:4,ca:45},p:["בננה + תותים","יוגורט או חלב ללא לקטוז","כף שיבולת שועל"],s:["כפית ממרח בוטנים","קיווי","קוביות קרח"]},
+  {e:"🍞",n:"פרנץ' טוסט ביתי",nut:{k:340,pr:12,fa:12,ca:44},p:["לחם מתאים טבול בביצה וקינמון","מטוגן קלות במעט חמאה או שמן","מעט מייפל ותותים"],s:["יוגורט ללא לקטוז בצד","בננה מקורמלת"]},
+  {e:"🥪",n:"כריך בוקר",nut:{k:330,pr:13,fa:14,ca:38},p:["לחם מתאים (כוסמין 100% / ללא גלוטן)","טחינה גולמית או גבינה צהובה","ירקות"],s:["גבינה לבנה ללא לקטוז","ממרח בוטנים","ביצה קשה"]}],
  "צהריים":[
-  {e:"🍗",n:"שניצל ואורז",p:["שניצל עוף אפוי בציפוי פירורי אורז או קורנפלקס","אורז לבן","מלפפון וגזר"],s:["פירה","שעועית ירוקה מאודה","סלט עגבניות"]},
-  {e:"🍝",n:"פסטה ברוטב עגבניות ביתי",p:["פסטה ללא גלוטן או פסטת אורז","רוטב עגבניות בלי בצל ושום. הטריק: שמן זית בטעם שום נותן את הטעם בלי הכאב","גבינה קשה מגוררת"],s:["קוביות חזה עוף","טונה","קישוא מוקפץ"]},
-  {e:"🍠",n:"עוף ותפוחי אדמה בתנור",p:["פרגית או חזה עוף","תפוחי אדמה אפויים","גזר וקישוא בתנור"],s:["מעט בטטה","דלעת","אורז"]},
-  {e:"🐟",n:"דג ואורז",p:["סלמון או דניס בתנור עם לימון","אורז","סלט מלפפונים"],s:["פירה","שעועית ירוקה","עגבניות שרי"]},
-  {e:"🧆",n:"קציצות עוף אפויות",p:["קציצות עוף עם גזר מגורר ועשבי תיבול (בלי בצל)","אורז או פתיתי אורז","ירקות מאודים"],s:["פעם בשבוע: קציצות בקר רזה (ברזל!)","קינואה","רוטב עגבניות ביתי"]}],
+  {e:"🍗",n:"שניצל ואורז",nut:{k:550,pr:30,fa:18,ca:62},p:["שניצל עוף אפוי בציפוי פירורי אורז או קורנפלקס","אורז לבן","מלפפון וגזר"],s:["פירה","שעועית ירוקה מאודה","סלט עגבניות"]},
+  {e:"🍝",n:"פסטה ברוטב עגבניות ביתי",nut:{k:480,pr:16,fa:12,ca:74},p:["פסטה ללא גלוטן או פסטת אורז","רוטב עגבניות בלי בצל ושום. הטריק: שמן זית בטעם שום נותן את הטעם בלי הכאב","גבינה קשה מגוררת"],s:["קוביות חזה עוף","טונה","קישוא מוקפץ"]},
+  {e:"🍠",n:"עוף ותפוחי אדמה בתנור",nut:{k:520,pr:35,fa:16,ca:50},p:["פרגית או חזה עוף","תפוחי אדמה אפויים","גזר וקישוא בתנור"],s:["מעט בטטה","דלעת","אורז"]},
+  {e:"🐟",n:"דג ואורז",nut:{k:480,pr:30,fa:16,ca:48},p:["סלמון או דניס בתנור עם לימון","אורז","סלט מלפפונים"],s:["פירה","שעועית ירוקה","עגבניות שרי"]},
+  {e:"🍔",n:"המבורגר ביתי",nut:{k:520,pr:30,fa:22,ca:48},p:["קציץ בקר רזה ביתי (בלי בצל בפנים, ברזל מעולה!)","לחמנייה ללא גלוטן או אורז בצד","מלפפון חמוץ, חסה ועגבנייה"],s:["צ'יפס אפוי בתנור","קטשופ מעט","גבינה צהובה מעל"]},
+  {e:"🍜",n:"מוקפץ אטריות אורז",nut:{k:470,pr:25,fa:12,ca:60},p:["אטריות אורז","רצועות עוף","גזר, קישוא והחלק הירוק של בצל ירוק","מעט סויה ללא גלוטן"],s:["ביצה טרופה בפנים","שומשום","טופו מוצק"]},
+  {e:"🥧",n:"פשטידת קישואים",nut:{k:320,pr:16,fa:18,ca:22},p:["קישואים מגוררים + ביצים","גבינה קשה מגוררת","מעט קמח אורז או שיבולת שועל טחונה"],s:["גזר מגורר בפנים","תרד מעט","סלט בצד"]},
+  {e:"🧆",n:"קציצות עוף אפויות",nut:{k:480,pr:30,fa:14,ca:52},p:["קציצות עוף עם גזר מגורר ועשבי תיבול (בלי בצל)","אורז או פתיתי אורז","ירקות מאודים"],s:["פעם בשבוע: קציצות בקר רזה (ברזל!)","קינואה","רוטב עגבניות ביתי"]}],
  "ערב":[
-  {e:"🍳",n:"חביתה וסלט",p:["חביתה","סלט מלפפונים ועגבניות","פריכיות אורז או לחם מתאים"],s:["גבינה לבנה ללא לקטוז","זיתים","אבוקדו רבע (כמות קטנה)"]},
-  {e:"🥪",n:"כריך טונה",p:["טונה עם טחינה גולמית ולימון (עדיף על מיונז, מוסיף סידן וברזל)","לחם מתאים","מלפפון"],s:["ביצה קשה במקום טונה","מעט מיונז אם ממש מעדיפה","עגבנייה וחסה"]},
-  {e:"🍅",n:"שקשוקה עדינה",p:["ביצים ברוטב עגבניות ביתי בלי בצל ושום","מעט פלפל אדום","לחם מתאים לניגוב"],s:["פטרוזיליה","מעט גבינה בולגרית מעל","קוביות קישוא ברוטב"]},
-  {e:"🍲",n:"מרק ירקות עדין",p:["גזר, קישוא, תפוח אדמה ודלעת","מעט אורז בפנים"],s:["אטריות אורז","קוביות עוף","עשבי תיבול"]},
-  {e:"🍚",n:"אורז מוקפץ עדין",p:["אורז","ביצה טרופה","גזר + החלק הירוק של בצל ירוק","מעט רוטב סויה ללא גלוטן"],s:["קוביות עוף","קישוא","שומשום מעט"]},
-  {e:"🧀",n:"טוסט גבינה",p:["לחם מתאים","גבינה צהובה קשה","עגבנייה"],s:["זיתים","ביצה קשה בצד","מלפפונים חמוצים מעט"]}],
+  {e:"🍳",n:"חביתה וסלט",nut:{k:300,pr:14,fa:18,ca:20},p:["חביתה","סלט מלפפונים ועגבניות","פריכיות אורז או לחם מתאים"],s:["גבינה לבנה ללא לקטוז","זיתים","אבוקדו רבע (כמות קטנה)"]},
+  {e:"🥪",n:"כריך טונה",nut:{k:380,pr:24,fa:14,ca:38},p:["טונה עם טחינה גולמית ולימון (עדיף על מיונז, מוסיף סידן וברזל)","לחם מתאים","מלפפון"],s:["ביצה קשה במקום טונה","מעט מיונז אם ממש מעדיפה","עגבנייה וחסה"]},
+  {e:"🍅",n:"שקשוקה עדינה",nut:{k:320,pr:16,fa:16,ca:26},p:["ביצים ברוטב עגבניות ביתי בלי בצל ושום","מעט פלפל אדום","לחם מתאים לניגוב"],s:["פטרוזיליה","מעט גבינה בולגרית מעל","קוביות קישוא ברוטב"]},
+  {e:"🍲",n:"מרק ירקות עדין",nut:{k:220,pr:6,fa:5,ca:38},p:["גזר, קישוא, תפוח אדמה ודלעת","מעט אורז בפנים"],s:["אטריות אורז","קוביות עוף","עשבי תיבול"]},
+  {e:"🍚",n:"אורז מוקפץ עדין",nut:{k:420,pr:14,fa:12,ca:60},p:["אורז","ביצה טרופה","גזר + החלק הירוק של בצל ירוק","מעט רוטב סויה ללא גלוטן"],s:["קוביות עוף","קישוא","שומשום מעט"]},
+  {e:"🍕",n:"טוסט פיצה",nut:{k:350,pr:15,fa:12,ca:42},p:["לחם מתאים","רוטב עגבניות ביתי (בלי בצל ושום)","גבינה צהובה קשה מעל, לתנור או טוסטר"],s:["זיתים","אורגנו","עגבניות שרי"]},
+  {e:"🥗",n:"סלט קינואה שובע",nut:{k:380,pr:16,fa:16,ca:42},p:["קינואה מבושלת","מלפפון, עגבנייה ופלפל אדום מעט","ביצה קשה או קוביות גבינה בולגרית מעט","שמן זית ולימון"],s:["טונה","זיתים","נענע קצוצה"]},
+  {e:"🧀",n:"טוסט גבינה",nut:{k:330,pr:14,fa:13,ca:38},p:["לחם מתאים","גבינה צהובה קשה","עגבנייה"],s:["זיתים","ביצה קשה בצד","מלפפונים חמוצים מעט"]}],
  "נשנושים":[
-  {e:"🍌",n:"פרי קל לבטן",p:["בננה / מנדרינה / ענבים / תותים / קיווי / מלון כתום"],s:["אוכמניות","קלמנטינה"]},
-  {e:"🍿",n:"פופקורן ביתי",p:["פופקורן בסיר עם מעט שמן ומלח"],s:["מעט פפריקה"]},
-  {e:"🥜",n:"פריכיות וממרח בוטנים",p:["פריכיות אורז","ממרח בוטנים טבעי"],s:["בננה פרוסה מעל","שוקולד מריר מגורר מעט"]},
-  {e:"🥕",n:"ירקות ומטבל",p:["מקלות גזר ומלפפון","מטבל טחינה-לימון או יוגורט ללא לקטוז עם שמיר"],s:["פלפל אדום (כמות קטנה)","זיתים"]},
-  {e:"🌰",n:"חופן קטן אגוזים",p:["בוטנים או אגוזי מלך, חופן קטן"],s:["גרעיני דלעת"]}],
+  {e:"🍌",n:"פרי קל לבטן",nut:{k:90,pr:1,fa:0,ca:22},p:["בננה / מנדרינה / ענבים / תותים / קיווי / מלון כתום"],s:["אוכמניות","קלמנטינה"]},
+  {e:"🍿",n:"פופקורן ביתי",nut:{k:130,pr:3,fa:5,ca:18},p:["פופקורן בסיר עם מעט שמן ומלח"],s:["מעט פפריקה"]},
+  {e:"🥜",n:"פריכיות וממרח בוטנים",nut:{k:180,pr:6,fa:10,ca:16},p:["פריכיות אורז","ממרח בוטנים טבעי"],s:["בננה פרוסה מעל","שוקולד מריר מגורר מעט"]},
+  {e:"🥕",n:"ירקות ומטבל",nut:{k:90,pr:3,fa:4,ca:10},p:["מקלות גזר ומלפפון","מטבל טחינה-לימון או יוגורט ללא לקטוז עם שמיר"],s:["פלפל אדום (כמות קטנה)","זיתים"]},
+  {e:"🌰",n:"חופן קטן אגוזים",nut:{k:170,pr:6,fa:15,ca:5},p:["בוטנים או אגוזי מלך, חופן קטן"],s:["גרעיני דלעת"]},
+  {e:"🧀",n:"גבינה וענבים",nut:{k:180,pr:9,fa:9,ca:15},p:["קוביות גבינה צהובה קשה","ענבים"],s:["עגבניות שרי","זיתים"]},
+  {e:"🥚",n:"ביצה קשה",nut:{k:90,pr:7,fa:6,ca:1},p:["ביצה קשה עם קורט מלח","פריכית אורז בצד"],s:["מלפפון חתוך","עגבניות שרי"]}],
  "קינוחים":[
-  {e:"🍫",n:"שוקולד מריר",p:["2-3 קוביות שוקולד מריר"],s:["עם תותים"]},
-  {e:"🍧",n:"סורבה או ג'לטי",p:["סורבה פירות (עדיף תות/לימון)"],s:["ארטיק קרח"]},
-  {e:"🍰",n:"עוגת בננה ביתית",p:["על בסיס שיבולת שועל ובננה"],s:["קינמון","מעט שוקולד צ'יפס מריר"]},
-  {e:"🍬",n:"מרנג",p:["נשיקות מרנג קטנות"],s:["-"]},
-  {e:"🍌",n:"בננה קפואה בשוקולד",p:["פרוסות בננה קפואות","מעט שוקולד מריר מומס"],s:["פירורי בוטנים"]},
-  {e:"🥥",n:"פודינג צ'יה",p:["2 כפות זרעי צ'יה מושרים לילה בחלב ללא לקטוז","תותים מעל"],s:["קינמון","מעט מייפל","קיווי"]}],
+  {e:"🍫",n:"שוקולד מריר",nut:{k:110,pr:2,fa:8,ca:9},p:["2-3 קוביות שוקולד מריר"],s:["עם תותים"]},
+  {e:"🍧",n:"סורבה או ג'לטי",nut:{k:120,pr:0,fa:0,ca:30},p:["סורבה פירות (עדיף תות/לימון)"],s:["ארטיק קרח"]},
+  {e:"🍰",n:"עוגת בננה ביתית",nut:{k:220,pr:5,fa:8,ca:33},p:["על בסיס שיבולת שועל ובננה"],s:["קינמון","מעט שוקולד צ'יפס מריר"]},
+  {e:"🍬",n:"מרנג",nut:{k:60,pr:1,fa:0,ca:14},p:["נשיקות מרנג קטנות"],s:["-"]},
+  {e:"🍌",n:"בננה קפואה בשוקולד",nut:{k:150,pr:2,fa:5,ca:26},p:["פרוסות בננה קפואות","מעט שוקולד מריר מומס"],s:["פירורי בוטנים"]},
+  {e:"🥥",n:"פודינג צ'יה",nut:{k:180,pr:6,fa:9,ca:18},p:["2 כפות זרעי צ'יה מושרים לילה בחלב ללא לקטוז","תותים מעל"],s:["קינמון","מעט מייפל","קיווי"]},
+  {e:"🍚",n:"אורז בחלב",nut:{k:250,pr:7,fa:4,ca:46},p:["אורז מבושל בחלב ללא לקטוז","קינמון ומעט סוכר"],s:["צימוקים מעט","וניל"]}],
  "לבית הספר":[
-  {e:"🥪",n:"כריך גבינה צהובה",p:["לחם מתאים","גבינה צהובה","מלפפון"],s:["טחינה גולמית","ביצה קשה","זיתים"]},
-  {e:"🥪",n:"כריך ממרח בוטנים",p:["לחם מתאים","ממרח בוטנים טבעי","בננה פרוסה (אופציה)"],s:["ריבת תות מעט"]},
-  {e:"🥒",n:"קופסת ירקות ופריכיות",p:["מלפפון, גזר, עגבניות שרי","פריכיות אורז"],s:["פלפל (כמות קטנה)"]},
-  {e:"🍇",n:"קופסת פירות",p:["ענבים / תותים / מנדרינה מקולפת"],s:["קיווי חתוך"]},
+  {e:"🥪",n:"כריך גבינה צהובה",nut:{k:300,pr:13,fa:11,ca:36},p:["לחם מתאים","גבינה צהובה","מלפפון"],s:["טחינה גולמית","ביצה קשה","זיתים"]},
+  {e:"🥪",n:"כריך ממרח בוטנים",nut:{k:340,pr:11,fa:14,ca:42},p:["לחם מתאים","ממרח בוטנים טבעי","בננה פרוסה (אופציה)"],s:["ריבת תות מעט"]},
+  {e:"🥒",n:"קופסת ירקות ופריכיות",nut:{k:120,pr:3,fa:1,ca:25},p:["מלפפון, גזר, עגבניות שרי","פריכיות אורז"],s:["פלפל (כמות קטנה)"]},
+  {e:"🍇",n:"קופסת פירות",nut:{k:90,pr:1,fa:0,ca:22},p:["ענבים / תותים / מנדרינה מקולפת"],s:["קיווי חתוך"]},
+  {e:"🍗",n:"לחמנייה עם שניצל מאתמול",nut:{k:420,pr:22,fa:14,ca:48},p:["לחמנייה מתאימה","שניצל קר מאתמול","מלפפון וקטשופ מעט"],s:["חסה","עגבנייה"]},
+  {e:"🍝",n:"קופסת פסטה קרה",nut:{k:380,pr:13,fa:12,ca:55},p:["פסטה ללא גלוטן משאריות","שמן זית וגבינה קשה מגוררת","עגבניות שרי"],s:["טונה","זיתים"]},
   {e:"💧",n:"תמיד בתיק",p:["בקבוק מים","נשנוש קטן ליום ארוך (פופקורן/פריכיות)"],s:["-"]}]
 };
 
@@ -459,27 +661,135 @@ function dayTitle(d){
 function localInputValue(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes());}
 const mealTypeName=v=>{const f=MEAL_TYPES.find(x=>x[0]===v);return f?f[1]:"";};
 
-/* ================= header ================= */
-(function(){
+/* ================= header, name, themes, buddy, garden ================= */
+const NAME_KEY="beten.name", THEME_KEY="beten.theme", GENDER_KEY="beten.gender";
+let GENDER=localStorage.getItem(GENDER_KEY)||"f";
+const g=(m,f)=>GENDER==="m"?m:f;
+function applyGender(){
+  $("#shuffleBtn").textContent=g("🎲 הגרל לי משהו מהקטגוריה","🎲 הגרילי לי משהו מהקטגוריה");
+  const fl=document.querySelector("#f-feel .f-label");
+  if(fl)fl.textContent=g("מה מרגיש?","מה מרגישה?");
+  const bc=$("#bCircle");
+  if(bc&&(bc.textContent==="מוכנה?"||bc.textContent==="מוכן?"))bc.textContent=g("מוכן?","מוכנה?");
+}
+function buildGenderPick(){
+  buildPick($("#genderPick"),[["f","נקבה 🙋‍♀️"],["m","זכר 🙋‍♂️"]],false,()=>GENDER,v=>GENDER=v);
+}
+const THEMES=[
+ ["אפרסק 🍑",{}],
+ ["לילך 💜",{"--coral":"#A98BE0","--coral-deep":"#8E6BD4","--coral-soft":"#F1EAFC","--pink":"#C77BE0"}],
+ ["מנטה 🌿",{"--coral":"#5FBFA5","--coral-deep":"#3DA88C","--coral-soft":"#E0F5EC","--pink":"#6FCBB4"}],
+ ["אוקיינוס 🌊",{"--coral":"#5E9BE6","--coral-deep":"#3F7ED0","--coral-soft":"#E4EFFC","--pink":"#7BB2EC"}]];
+let themeIdx=parseInt(localStorage.getItem(THEME_KEY)||"0")||0;
+function applyTheme(){
+  const r=document.documentElement.style;
+  ["--coral","--coral-deep","--coral-soft","--pink"].forEach(v=>r.removeProperty(v));
+  Object.entries(THEMES[themeIdx%THEMES.length][1]).forEach(([k,v])=>r.setProperty(k,v));
+}
+applyTheme();
+$("#themeBtn").addEventListener("click",()=>{
+  themeIdx=(themeIdx+1)%THEMES.length; localStorage.setItem(THEME_KEY,themeIdx);
+  applyTheme(); toast("ערכת צבעים: "+THEMES[themeIdx][0]);
+});
+function greet(){
   const h=new Date().getHours();
-  $("#hello").textContent = h<12?"בוקר טוב 🌅":h<18?"היי 💛":"ערב טוב 🌙";
+  const name=localStorage.getItem(NAME_KEY)||"";
+  const base=h<12?"בוקר טוב":h<18?"היי":"ערב טוב";
+  const em=h<12?"🌅":h<18?"💛":"🌙";
+  $("#hello").textContent=base+(name?", "+name:"")+" "+em;
   const n=new Date();
   $("#hSub").textContent="יום "+DAYS[n.getDay()]+", "+n.getDate()+"."+(n.getMonth()+1)+"."+n.getFullYear();
-})();
+}
+greet();
+if(!localStorage.getItem(NAME_KEY)&&!localStorage.getItem("beten.skipname")){
+  buildGenderPick();
+  $("#nameModal").hidden=false;
+}
+$("#nameSave").addEventListener("click",()=>{
+  const v=$("#nameIn").value.trim();
+  if(v)localStorage.setItem(NAME_KEY,v); else localStorage.setItem("beten.skipname","1");
+  localStorage.setItem(GENDER_KEY,GENDER);
+  $("#nameModal").hidden=true; greet(); applyGender(); burst(window.innerWidth/2,120);
+});
+$("#nameSkip").addEventListener("click",()=>{
+  localStorage.setItem("beten.skipname","1"); $("#nameModal").hidden=true;
+});
+function dismissNameModal(){
+  if($("#nameModal").hidden)return;
+  if(!localStorage.getItem(NAME_KEY))localStorage.setItem("beten.skipname","1");
+  $("#nameModal").hidden=true;
+}
+$("#nameModal").addEventListener("click",e=>{ if(e.target.id==="nameModal")dismissNameModal(); });
+$("#nameIn").addEventListener("keydown",e=>{ if(e.key==="Enter")$("#nameSave").click(); });
+function buzz(){ if(navigator.vibrate)try{navigator.vibrate(15);}catch(e){} }
+
+function updateBuddy(){
+  const today=dayKey(new Date());
+  const mm=e=>Math.floor(new Date(e.ts).getTime()/60000);
+  const feels=entries.filter(e=>e.kind==="feel"&&dayKey(new Date(e.ts))===today)
+    .sort((a,b)=>(mm(b)-mm(a))||(entries.indexOf(b)-entries.indexOf(a)));
+  let mood="happy";
+  if(feels.length){
+    const f=feels[0];
+    if((f.symptoms||[]).includes("הכול טוב 💛"))mood="happy";
+    else if(f.sev==="3")mood="ouch";
+    else if((f.symptoms||[]).length)mood="meh";
+  }
+  const m=$("#buddyMouth");
+  if(mood==="happy")m.setAttribute("d","M40 60 Q50 70 60 60");
+  else if(mood==="meh")m.setAttribute("d","M40 63 Q50 63 60 63");
+  else m.setAttribute("d","M40 66 Q50 58 60 66");
+}
+function updateGarden(){
+  const g=$("#garden"); let html="";
+  let streak=0, counting=true;
+  for(let i=6;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    const k=dayKey(d);
+    const has=entries.some(e=>dayKey(new Date(e.ts))===k);
+    html+='<span class="g-day">'+(has?"🌸":"·")+'</span>';
+  }
+  for(let i=0;i<60;i++){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    if(entries.some(e=>dayKey(new Date(e.ts))===dayKey(d)))streak++;
+    else{ if(i===0)continue; break; }
+  }
+  if(streak>1)html+='<span class="g-streak">רצף '+streak+' ימים 🔥</span>';
+  g.innerHTML=html;
+}
+$("#buddy").addEventListener("click",()=>{
+  document.querySelectorAll("nav button")[0].click();
+  openSheet("feel");
+});
+document.querySelectorAll("#quickBar button").forEach(b=>b.addEventListener("click",()=>{
+  const m=b.dataset.m;
+  if(m==="good"){
+    entries.push({id:uid(),ts:new Date().toISOString(),kind:"feel",symptoms:["הכול טוב 💛"],sev:null,context:[],text:""});
+    save(); renderTimeline(); buzz(); toast("איזה כיף! נרשם 💛");
+    const r=b.getBoundingClientRect(); burst(r.left+r.width/2,r.top);
+  }else{
+    openSheet("feel");
+    if(m==="bad"){sel.sev="3";refreshPicks();}
+  }
+}));
 
 /* ================= nav ================= */
 document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{
+  closeSheet(); closeMealSheet();
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
   b.classList.add("on");
   document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
   $("#"+b.dataset.p).classList.add("active");
   $("#fab").style.display = b.dataset.p==="p-diary" ? "flex" : "none";
   if(b.dataset.p==="p-sum")renderSummary();
+  if(b.dataset.p==="p-pat")renderPatterns();
+  if(b.dataset.p==="p-meals"&&!userPickedCat){curCat=smartCat();renderCats();renderMeals();}
   window.scrollTo(0,0);
 }));
 
 /* ================= timeline ================= */
 function renderTimeline(){
+  updateBuddy(); updateGarden();
   const tl=$("#timeline");
   if(!entries.length){
     tl.innerHTML='<div class="empty"><div class="big">🌸</div><p>היומן עוד ריק.<br>לוחצים על ＋ ומוסיפים ארוחה, הרגשה או הקלטה.</p></div>';
@@ -573,7 +883,9 @@ function openSheet(kind){
   $("#whenIn").value=localInputValue(new Date());
   $("#overlay").classList.add("show"); $("#sheet").classList.add("show");
 }
-function closeSheet(){ $("#overlay").classList.remove("show"); $("#sheet").classList.remove("show"); stopRec(true); }
+function closeSheet(){ $("#sheet").classList.remove("show");
+  if(!$("#mealSheet").classList.contains("show"))$("#overlay").classList.remove("show");
+  stopRec(true); try{$("#recPrev").pause();}catch(e){} }
 function guessMealType(){const h=new Date().getHours();
   return h<10?"boker":h<12?"school":h<16?"tsohor":h<18?"nash":"erev";}
 function showKind(){
@@ -582,7 +894,11 @@ function showKind(){
 }
 document.querySelectorAll("#kindSeg button").forEach(b=>b.addEventListener("click",()=>{curKind=b.dataset.k;showKind();}));
 $("#fab").addEventListener("click",()=>openSheet());
-$("#overlay").addEventListener("click",closeSheet);
+$("#overlay").addEventListener("click",()=>{closeSheet();closeMealSheet();});
+$("#sheetClose").addEventListener("click",closeSheet);
+document.querySelector("#sheet .grip").addEventListener("click",closeSheet);
+document.querySelector("#mealSheet .grip").addEventListener("click",closeMealSheet);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeSheet();closeMealSheet();dismissNameModal();}});
 
 /* ---------- recorder ---------- */
 function pickMime(){
@@ -647,7 +963,7 @@ $("#saveBtn").addEventListener("click",async()=>{
     e.text=$("#noteText").value.trim();
     if(!e.text){toast("כותבים משהו קטן 🙂");return;}
   }
-  entries.push(e); save(); closeSheet(); renderTimeline(); toast("נשמר ביומן 💛");
+  entries.push(e); save(); closeSheet(); renderTimeline(); toast("נשמר ביומן 💛"); buzz();
   burst(window.innerWidth/2, window.innerHeight-140);
 });
 
@@ -674,44 +990,156 @@ function burst(x,y){
     setTimeout(()=>h.remove(),1400);
   }
 }
+/* ---------- custom meals ---------- */
+const CM_KEY="beten.custommeals.v1";
+let CUSTOM={}; try{CUSTOM=JSON.parse(localStorage.getItem(CM_KEY)||"{}");}catch(e){CUSTOM={};}
+const saveCustom=()=>localStorage.setItem(CM_KEY,JSON.stringify(CUSTOM));
+let cmCat=null;
+function openMealSheet(){
+  cmCat=curCat;
+  ["cmName","cmEmoji","cmParts","cmSwaps","cmK","cmPr","cmCa","cmFa"].forEach(id=>$("#"+id).value="");
+  buildPick($("#cmCatPick"),Object.keys(MEALS),false,()=>cmCat,v=>cmCat=v);
+  $("#overlay").classList.add("show"); $("#mealSheet").classList.add("show");
+}
+function closeMealSheet(){ $("#mealSheet").classList.remove("show");
+  if(!$("#sheet").classList.contains("show"))$("#overlay").classList.remove("show"); }
+$("#addMealBtn").addEventListener("click",openMealSheet);
+document.querySelector(".ms-close").addEventListener("click",closeMealSheet);
+$("#cmSave").addEventListener("click",()=>{
+  const n=$("#cmName").value.trim();
+  if(!n){toast("איך קוראים למנה? 🙂");return;}
+  const parts=$("#cmParts").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  if(!parts.length){toast("מה יש בפנים? לפחות מרכיב אחד");return;}
+  const swaps=$("#cmSwaps").value.split("\n").map(s=>s.trim()).filter(Boolean);
+  const item={e:($("#cmEmoji").value.trim()||"🍽️"),n:n,p:parts,s:swaps,custom:true};
+  const nk=parseInt($("#cmK").value), npr=parseInt($("#cmPr").value),
+        nca=parseInt($("#cmCa").value), nfa=parseInt($("#cmFa").value);
+  if([nk,npr,nca,nfa].some(v=>!isNaN(v)&&v>=0)){
+    item.nut={k:isNaN(nk)?0:nk, pr:isNaN(npr)?0:npr, fa:isNaN(nfa)?0:nfa, ca:isNaN(nca)?0:nca};
+  }
+  (CUSTOM[cmCat]=CUSTOM[cmCat]||[]).push(item);
+  saveCustom(); closeMealSheet();
+  if(cmCat!==curCat){curCat=cmCat;renderCats();}
+  renderMeals(); toast("המנה נוספה 💛"); buzz();
+});
+
 let curCat=Object.keys(MEALS)[0];
+let userPickedCat=false;
+function smartCat(){
+  const h=new Date().getHours();
+  return h<11?"בוקר":h<16?"צהריים":h<18?"נשנושים":"ערב";
+}
 function renderCats(){
   const row=$("#catRow"); row.innerHTML="";
   Object.keys(MEALS).forEach(c=>{
     const b=document.createElement("button");
     b.textContent=c; if(c===curCat)b.classList.add("on");
-    b.addEventListener("click",()=>{curCat=c;renderCats();renderMeals();});
+    b.addEventListener("click",()=>{userPickedCat=true;curCat=c;$("#mealSearch").value="";renderCats();renderMeals();});
     row.appendChild(b);
   });
 }
-function mealCard(m){
+const FAV_KEY="beten.favmeals.v1";
+let FAVS=[]; try{FAVS=JSON.parse(localStorage.getItem(FAV_KEY)||"[]");}catch(e){FAVS=[];}
+const saveFavs=()=>localStorage.setItem(FAV_KEY,JSON.stringify(FAVS));
+function catItems(){
+  const items=[...MEALS[curCat], ...(CUSTOM[curCat]||[])];
+  return items.sort((a,b)=>(FAVS.includes(b.n)?1:0)-(FAVS.includes(a.n)?1:0));
+}
+function mealCard(m,catTag){
   const swaps=(m.s||[]).filter(x=>x!=="-");
+  const fav=FAVS.includes(m.n);
+  const del=m.custom?'<button class="m-del" data-cn="'+esc(m.n)+'" aria-label="מחיקת מנה">🗑</button>':"";
   return '<div class="meal-card"><div class="m-head"><span class="m-emoji">'+m.e+
-   '</span><span class="m-name">'+esc(m.n)+'</span></div><ul class="m-parts">'+
+   '</span><span class="m-name">'+esc(m.n)+(m.custom?' <span style="font-size:.7rem;color:var(--soft);">(שלי)</span>':'')+
+   (catTag?'<span class="m-cattag">'+esc(catTag)+'</span>':'')+'</span>'+del+
+   '<button class="m-star'+(fav?' on':'')+'" data-fn="'+esc(m.n)+'" aria-label="מועדף">⭐</button></div><ul class="m-parts">'+
    m.p.map(x=>'<li>'+esc(x)+'</li>').join("")+'</ul>'+
    (swaps.length?'<div class="m-swaps-t">אפשר להחליף / להוסיף:</div><div class="chips">'+
      swaps.map(x=>'<span class="chip">'+esc(x)+'</span>').join("")+'</div>':"")+
+   (m.nut?'<button class="m-nutbtn">📊 ערכים תזונתיים</button>'+
+     '<div class="nut-panel" hidden><div class="nut-grid">'+
+     '<div><b>'+m.nut.k+'</b><span>קלוריות</span></div>'+
+     '<div><b>'+m.nut.pr+' ג\'</b><span>חלבון</span></div>'+
+     '<div><b>'+m.nut.ca+' ג\'</b><span>פחמימות</span></div>'+
+     '<div><b>'+m.nut.fa+' ג\'</b><span>שומן</span></div></div>'+
+     '<p class="nut-note">הערכה למנה ממוצעת, משתנה לפי כמויות</p>'+
+     '<button class="nut-close">✕ סגירה</button></div>':"")+
    '<button class="m-log" data-n="'+esc(m.n)+'">✔ אכלתי את זה, לרשום ביומן</button></div>';
 }
+function findMealByName(n){
+  for(const c of Object.keys(MEALS)){
+    const hit=[...MEALS[c],...(CUSTOM[c]||[])].find(m=>m.n===n);
+    if(hit)return hit;
+  }
+  return null;
+}
 function bindLog(scope){
+  scope.querySelectorAll(".m-nutbtn").forEach(b=>b.addEventListener("click",()=>{
+    const p=b.nextElementSibling;
+    p.hidden=!p.hidden;
+    b.textContent=p.hidden?"📊 ערכים תזונתיים":"📊 הסתרת הערכים";
+  }));
+  scope.querySelectorAll(".nut-close").forEach(b=>b.addEventListener("click",()=>{
+    const p=b.closest(".nut-panel");
+    p.hidden=true;
+    p.previousElementSibling.textContent="📊 ערכים תזונתיים";
+  }));
   scope.querySelectorAll(".m-log").forEach(b=>b.addEventListener("click",ev=>{
-    entries.push({id:uid(), ts:new Date().toISOString(), kind:"meal",
-      mealType:guessMealType(), text:b.dataset.n});
-    save(); renderTimeline(); toast("נרשם ביומן 💛");
+    const meal=findMealByName(b.dataset.n);
+    const e={id:uid(), ts:new Date().toISOString(), kind:"meal",
+      mealType:guessMealType(), text:b.dataset.n};
+    if(meal&&meal.nut)e.nut=meal.nut;
+    entries.push(e);
+    save(); renderTimeline(); toast("נרשם ביומן 💛"); buzz();
     const r=b.getBoundingClientRect(); burst(r.left+r.width/2, r.top);
   }));
+  scope.querySelectorAll(".m-del").forEach(b=>b.addEventListener("click",()=>{
+    if(!confirm("למחוק את המנה \""+b.dataset.cn+"\"?"))return;
+    Object.keys(CUSTOM).forEach(c=>{CUSTOM[c]=(CUSTOM[c]||[]).filter(m=>m.n!==b.dataset.cn);});
+    saveCustom(); renderMeals(); toast("המנה נמחקה");
+  }));
+  scope.querySelectorAll(".m-star").forEach(b=>b.addEventListener("click",()=>{
+    const n=b.dataset.fn;
+    FAVS.includes(n)?FAVS=FAVS.filter(x=>x!==n):FAVS.push(n);
+    saveFavs(); renderMeals();
+    toast(FAVS.includes(n)?"נוסף למועדפים ⭐":"הוסר מהמועדפים");
+  }));
+}
+function searchAll(q){
+  q=q.trim();
+  const res=[];
+  Object.keys(MEALS).forEach(c=>{
+    [...MEALS[c],...(CUSTOM[c]||[])].forEach(m=>{
+      const hay=(m.n+" "+m.p.join(" ")+" "+(m.s||[]).join(" "));
+      if(hay.includes(q))res.push([m,c]);
+    });
+  });
+  return res;
 }
 function renderMeals(){
   applyAccent();
   const list=$("#mealList");
-  list.innerHTML=MEALS[curCat].map(mealCard).join("");
+  const q=$("#mealSearch").value.trim();
+  $("#searchClear").hidden=!q;
+  if(q){
+    const res=searchAll(q);
+    list.innerHTML=res.length
+      ? res.map(([m,c])=>mealCard(m,c)).join("")
+      : '<div class="empty"><span class="big">🔎</span><p>לא מצאתי "'+esc(q)+'"...<br>אפשר להוסיף אותה עם ➕ הוספת מנה שלי</p></div>';
+    bindLog(list);
+    return;
+  }
+  list.innerHTML=catItems().map(m=>mealCard(m)).join("");
   bindLog(list);
 }
+$("#mealSearch").addEventListener("input",renderMeals);
+$("#searchClear").addEventListener("click",()=>{$("#mealSearch").value="";renderMeals();});
 $("#shuffleBtn").addEventListener("click",()=>{
+  $("#mealSearch").value=""; $("#searchClear").hidden=true;
   applyAccent();
-  const arr=MEALS[curCat]; const m=arr[Math.floor(Math.random()*arr.length)];
+  const arr=catItems(); const m=arr[Math.floor(Math.random()*arr.length)];
   const list=$("#mealList");
-  list.innerHTML=mealCard(m)+'<p style="text-align:center;color:var(--soft);font-size:.85rem;">🎲 הגרלה מתוך '+curCat+' · לחיצה נוספת מגרילה שוב</p>'+MEALS[curCat].filter(x=>x!==m).map(mealCard).join("");
+  list.innerHTML=mealCard(m)+'<p style="text-align:center;color:var(--soft);font-size:.85rem;">🎲 הגרלה מתוך '+curCat+' · לחיצה נוספת מגרילה שוב</p>'+arr.filter(x=>x!==m).map(x=>mealCard(x)).join("");
   bindLog(list);
   window.scrollTo({top:0,behavior:"smooth"});
 });
@@ -722,7 +1150,7 @@ $("#tipList").innerHTML=TIPS.map(t=>'<div class="tip"><span class="t-e">'+t[0]+
 let bRun=false,bT=null;
 $("#bStart").addEventListener("click",()=>{
   const c=$("#bCircle"),tx=$("#bText"),btn=$("#bStart");
-  if(bRun){bRun=false;clearTimeout(bT);btn.textContent="התחלה";c.style.transform="scale(1)";c.textContent="מוכנה?";tx.textContent="שאיפה 4 · החזקה 4 · נשיפה 6";return;}
+  if(bRun){bRun=false;clearTimeout(bT);btn.textContent="התחלה";c.style.transform="scale(1)";c.textContent=g("מוכן?","מוכנה?");tx.textContent="שאיפה 4 · החזקה 4 · נשיפה 6";return;}
   bRun=true; btn.textContent="עצירה";
   const cycle=()=>{
     if(!bRun)return;
@@ -741,6 +1169,24 @@ $("#bStart").addEventListener("click",()=>{
 /* ================= summary ================= */
 function last14(){ const cut=Date.now()-14*864e5; return entries.filter(e=>new Date(e.ts)>=cut); }
 function renderSummary(){
+  /* today's nutrition from bank-logged meals */
+  const today=dayKey(new Date());
+  const withNut=entries.filter(e=>e.kind==="meal"&&e.nut&&dayKey(new Date(e.ts))===today);
+  const tot=withNut.reduce((a,e)=>({k:a.k+e.nut.k,pr:a.pr+e.nut.pr,fa:a.fa+e.nut.fa,ca:a.ca+e.nut.ca}),{k:0,pr:0,fa:0,ca:0});
+  const tn=$("#todayNut");
+  if(withNut.length){
+    tn.innerHTML='<h3>🍽️ היום על הצלחת ('+withNut.length+' מנות מהמאגר)</h3>'+
+      '<div class="nut-grid">'+
+      '<div><b>'+tot.k.toLocaleString()+'</b><span>קלוריות</span></div>'+
+      '<div><b>'+tot.pr+' ג\'</b><span>חלבון</span></div>'+
+      '<div><b>'+tot.ca+' ג\'</b><span>פחמימות</span></div>'+
+      '<div><b>'+tot.fa+' ג\'</b><span>שומן</span></div></div>'+
+      '<p class="nut-note" style="margin-bottom:0;">נספרות רק מנות שנרשמו מתוך מסך הארוחות (או מנות שלי עם ערכים)</p>';
+    tn.style.display="";
+  }else{
+    tn.innerHTML='<h3>🍽️ היום על הצלחת</h3><p class="nut-note" style="margin:0;text-align:right;">עוד לא נרשמו היום מנות מהמאגר. כשרושמים ארוחה עם ✔ ממסך הארוחות, הסיכום התזונתי יופיע כאן.</p>';
+    tn.style.display="";
+  }
   const es=last14();
   const feels=es.filter(e=>e.kind==="feel");
   const sympDays=new Set(), goodDays=new Set(), counts={};
@@ -803,8 +1249,113 @@ $("#restoreFile").addEventListener("change",e=>{
   r.readAsText(f); e.target.value="";
 });
 
+/* ================= patterns ================= */
+function renderPatterns(){
+  const el=$("#patList");
+  const feels=entries.filter(e=>e.kind==="feel");
+  const isSym=f=>(f.symptoms||[]).some(s=>s!=="הכול טוב 💛");
+  const symFeels=feels.filter(isSym);
+  if(feels.length<5){
+    el.innerHTML='<div class="empty"><span class="big">🔍</span><p>הבלש צריך עוד רמזים...<br>אחרי בערך 5 רישומי הרגשה יתחילו להופיע כאן דפוסים.</p></div>';
+    return;
+  }
+  let html='<div class="pat-note">💡 דפוסים הם <b>רמזים, לא הוכחות</b>. תסמינים מושפעים גם משינה, לחץ והורמונים. את מה שחוזר על עצמו שווה להביא לדיאטנית או לרופא.</div>';
+
+  /* context links */
+  let ctxRows="";
+  CTX.forEach(c=>{
+    const total=feels.filter(f=>(f.context||[]).includes(c)).length;
+    if(total<3)return;
+    const withS=symFeels.filter(f=>(f.context||[]).includes(c)).length;
+    const pct=Math.round(withS/total*100);
+    if(pct<50)return;
+    ctxRows+='<div class="pat-row"><span class="pr-l">'+esc(c)+'</span><span class="bar"><i style="width:'+pct+'%"></i></span><span class="pr-n">'+withS+' מ-'+total+'</span></div>';
+  });
+  if(ctxRows)html+='<div class="pat-card"><h3>🧩 מה קורה מסביב לתסמינים</h3><p class="pat-sub">כמה פעמים ההקשר הזה הופיע יחד עם תסמינים:</p>'+ctxRows+'</div>';
+
+  /* time-of-day */
+  const buckets=[["בוקר",5,11],["צהריים",11,16],["אחה"+String.fromCharCode(34)+"צ וערב",16,21],["לילה",21,29]];
+  const bCounts=buckets.map(([l,a,b2])=>{
+    const n=symFeels.filter(f=>{let h=new Date(f.ts).getHours(); if(h<5)h+=24; return h>=a&&h<b2;}).length;
+    return [l,n];});
+  const maxB=Math.max(...bCounts.map(x=>x[1]),1);
+  if(symFeels.length>=3){
+    html+='<div class="pat-card"><h3>🕐 מתי ביום זה קורה</h3><p class="pat-sub">חלוקת התסמינים לפי שעות:</p>'+
+      bCounts.map(([l,n])=>'<div class="pat-row"><span class="pr-l">'+l+'</span><span class="bar"><i style="width:'+Math.round(n/maxB*100)+'%"></i></span><span class="pr-n">'+n+'</span></div>').join("")+'</div>';
+  }
+
+  /* symptom frequency */
+  const sCounts={};
+  symFeels.forEach(f=>(f.symptoms||[]).forEach(s=>{if(s!=="הכול טוב 💛")sCounts[s]=(sCounts[s]||0)+1;}));
+  const sArr=Object.entries(sCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  if(sArr.length){
+    const maxS=sArr[0][1];
+    html+='<div class="pat-card"><h3>💜 התסמינים שחוזרים</h3>'+
+      sArr.map(([s,n])=>'<div class="pat-row"><span class="pr-l">'+esc(s)+'</span><span class="bar"><i style="width:'+Math.round(n/maxS*100)+'%"></i></span><span class="pr-n">'+n+'</span></div>').join("")+'</div>';
+  }
+
+  /* meals before symptoms */
+  const before={};
+  symFeels.forEach(f=>{
+    const t=new Date(f.ts).getTime();
+    entries.filter(e=>e.kind==="meal").forEach(m=>{
+      const mt=new Date(m.ts).getTime();
+      if(mt<=t&&t-mt<=3*3600*1000&&m.text)before[m.text]=(before[m.text]||0)+1;
+    });
+  });
+  const bArr=Object.entries(before).filter(([,n])=>n>=2).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  if(bArr.length){
+    html+='<div class="pat-card"><h3>🍽️ ארוחות שהופיעו עד 3 שעות לפני תסמין</h3><p class="pat-sub">שימי לב: זה <b>לא</b> אומר שהאוכל אשם. ייתכן שזה צירוף מקרים, גודל הארוחה או הקצב. רק אם משהו חוזר הרבה, בודקים עם דיאטנית:</p>'+
+      bArr.map(([m,n])=>'<div class="pat-row"><span class="pr-l" style="width:auto;flex:1;">'+esc(m)+'</span><span class="pr-n">'+n+' פעמים</span></div>').join("")+'</div>';
+  }
+
+  /* good streak encouragement */
+  const goodN=feels.filter(f=>(f.symptoms||[]).includes("הכול טוב 💛")).length;
+  if(goodN)html+='<div class="pat-card"><h3>🌸 ימים טובים</h3><p class="pat-sub" style="margin:0;">רשמת "הכול טוב" '+goodN+' פעמים. גם את זה חשוב לראות, הבטן לא רק כואבת 💛</p></div>';
+
+  el.innerHTML=html;
+}
+
+/* ================= name edit ================= */
+$("#editNameBtn").addEventListener("click",()=>{
+  $("#nameIn").value=localStorage.getItem(NAME_KEY)||"";
+  $("#nameSkip").textContent="ביטול";
+  buildGenderPick();
+  $("#nameModal").hidden=false;
+});
+
+/* ================= calculator (18+) ================= */
+const CALC_KEY="beten.calc.v1";
+let calcSex="f", calcAct="1.375";
+const ACTS=[["1.2","יושבני (מעט תנועה)"],["1.375","קל (1-3 אימונים בשבוע)"],["1.55","בינוני (3-5 אימונים)"],["1.725","גבוה (6-7 אימונים)"],["1.9","ספורטאי/עבודה פיזית"]];
+function initCalc(){
+  try{
+    const s=JSON.parse(localStorage.getItem(CALC_KEY)||"{}");
+    if(s.sex)calcSex=s.sex; if(s.act)calcAct=s.act;
+    if(s.age)$("#calcAge").value=s.age; if(s.w)$("#calcW").value=s.w; if(s.h)$("#calcH").value=s.h;
+  }catch(e){}
+  buildPick($("#calcSex"),[["f","נקבה"],["m","זכר"]],false,()=>calcSex,v=>calcSex=v);
+  buildPick($("#calcAct"),ACTS,false,()=>calcAct,v=>calcAct=v);
+}
+$("#calcGo").addEventListener("click",()=>{
+  const age=parseFloat($("#calcAge").value), wt=parseFloat($("#calcW").value), ht=parseFloat($("#calcH").value);
+  if(isNaN(age)||isNaN(wt)||isNaN(ht)){toast("ממלאים גיל, משקל וגובה 🙂");return;}
+  if(age<18){$("#calcOut").innerHTML='<div class="calc-res" style="background:var(--sun-soft);"><p style="margin:0;color:#8A6516;line-height:1.5;">המחשבון מיועד לגיל 18 ומעלה.<br>בגיל צמיחה הצרכים שונים, ואת החישוב עושים עם דיאטנית ילדים 💛</p></div>';return;}
+  const bmr=Math.round(10*wt+6.25*ht-5*age+(calcSex==="m"?5:-161));
+  const tdee=Math.round(bmr*parseFloat(calcAct));
+  const pMin=Math.round(wt*1.2), pMax=Math.round(wt*1.6);
+  localStorage.setItem(CALC_KEY,JSON.stringify({sex:calcSex,act:calcAct,age:age,w:wt,h:ht}));
+  $("#calcOut").innerHTML='<div class="calc-res">'+
+    '<div style="font-size:.85rem;color:#3E8A6E;font-weight:700;">צריכה יומית לשמירה על המשקל</div>'+
+    '<div class="big-n">'+tdee.toLocaleString()+' קק"ל</div>'+
+    '<div style="font-size:.85rem;color:var(--soft);margin-top:6px;">חילוף חומרים בסיסי (BMR): כ-'+bmr.toLocaleString()+' קק"ל</div>'+
+    '<div style="font-size:.88rem;color:#3E8A6E;margin-top:10px;font-weight:600;">חלבון מומלץ: '+pMin+'-'+pMax+' ג\' ביום (1.2-1.6 ג\' לק"ג)</div>'+
+    '</div>';
+  buzz();
+});
+
 /* ================= boot ================= */
-renderCats(); renderMeals(); renderTimeline();
+renderCats(); renderMeals(); renderTimeline(); initCalc(); applyGender();
 if("serviceWorker" in navigator){ navigator.serviceWorker.register("sw.js").catch(()=>{}); }
 </script>
 </body>
